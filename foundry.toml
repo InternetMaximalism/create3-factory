@@ -40,6 +40,7 @@ nova = "${RPC_URL_NOVA}"
 okx = "${RPC_URL_OKX}"
 opbnb = "${RPC_URL_OPBNB}"
 optimism = "${RPC_URL_OPTIMISM}"
+plasma = "${RPC_URL_PLASMA}"
 polygon = "${RPC_URL_POLYGON}"
 rootstock = "${RPC_URL_ROOTSTOCK}"
 scroll = "${RPC_URL_SCROLL}"
@@ -94,6 +95,7 @@ moonbeam = { key = "${MOONBEAM_MOONSCAN_KEY}", url = "https://api-moonbeam.moons
 moonriver = { key = "${MOONRIVER_MOONSCAN_KEY}", url = "https://api-moonriver.moonscan.io/api" }
 nova = { key = "${NOVA_ARBISCAN_KEY}", url = "https://nova.arbiscan.io/api" }
 optimism = { key = "${OPTIMISM_ETHERSCAN_KEY}", url = "https://api-optimistic.etherscan.io/api" }
+plasma = { key = "${PLASMA_API_KEY}", url = "https://api.routescan.io/v2/network/mainnet/evm/9745/etherscan" }
 polygon = { key = "${POLYGONSCAN_KEY}", url = "https://api.polygonscan.com/api" }
 rootstock = { key = "${RSKSCAN_API_KEY}", url = "https://api.rskscan.com/api" }
 scroll = { key = "${SCROLLSCAN_API_KEY}", url = "https://api.scrollscan.com/api" }
