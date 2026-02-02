@@ -2,7 +2,6 @@
   "extends": "solhint:recommended",
   "rules": {
     "import-path-check": "off",
-    "use-natspec": "off",
     "func-visibility": ["warn", {"ignoreConstructors": true}],
     "gas-strict-inequalities": "off",
     "gas-indexed-events": "off",

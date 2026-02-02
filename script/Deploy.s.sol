@@ -1,7 +1,7 @@
 // SPDX-License-Identifier: UNLICENSED
-pragma solidity ^0.8.13;
+pragma solidity 0.8.33;
 
-import "forge-std/Script.sol";
+import {Script} from "forge-std/Script.sol";
 
 import {CREATE3Factory} from "../src/CREATE3Factory.sol";
 

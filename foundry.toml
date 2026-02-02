@@ -4,6 +4,7 @@ solc_version = '0.8.33'
 evm_version = 'cancun'
 bytecode_hash = "none"
 cbor_metadata = false
+ignored_warnings_from = ["lib/"]
 
 [rpc_endpoints]
 # mainnet

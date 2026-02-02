@@ -118,7 +118,9 @@ contract CREATE3FactoryTest is Test {
         vm.prank(bob);
         address deployedByBob = factory.deploy(SALT, creationCode);
 
-        assertTrue(deployedByAlice != deployedByBob, "Same salt from different accounts should produce different addresses");
+        assertTrue(
+            deployedByAlice != deployedByBob, "Same salt from different accounts should produce different addresses"
+        );
 
         assertEq(deployedByAlice, factory.getDeployed(alice, SALT), "Alice's deployed address should match prediction");
         assertEq(deployedByBob, factory.getDeployed(bob, SALT), "Bob's deployed address should match prediction");
@@ -172,7 +174,9 @@ contract CREATE3FactoryTest is Test {
         assertTrue(predicted1 != predicted2, "Different salts should produce different addresses");
     }
 
-    function testFuzz_getDeployed_differentDeployersProduceDifferentAddresses(address deployer1, address deployer2) public {
+    function testFuzz_getDeployed_differentDeployersProduceDifferentAddresses(address deployer1, address deployer2)
+        public
+    {
         vm.assume(deployer1 != deployer2);
 
         address predicted1 = factory.getDeployed(deployer1, SALT);
