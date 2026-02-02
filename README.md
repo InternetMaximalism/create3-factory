@@ -23,6 +23,7 @@ factory = new CREATE3Factory{salt: salt}();
 ```
 
 The factory address is determined by:
+
 - Deployer address (from PRIVATE_KEY)
 - Salt ("intmax")
 - Factory bytecode (deterministic via `bytecode_hash = "none"` in foundry.toml)
@@ -31,17 +32,19 @@ The factory address is determined by:
 
 ## Supported Chains
 
-| Mainnet | Testnet |
-|---------|---------|
-| Ethereum | Sepolia |
+| Mainnet  | Testnet          |
+| -------- | ---------------- |
+| Ethereum | Sepolia          |
 | Arbitrum | Arbitrum Sepolia |
-| Base | Base Sepolia |
-| BSC | BSC Testnet |
-| Scroll | Scroll Sepolia |
+| Base     | Base Sepolia     |
+| Optimism | Optimism Sepolia |
+| BNB      | BNB Testnet      |
+| Scroll   | Scroll Sepolia   |
 
 ## Deployments
 
-For a list of all deployments and their respective addresses of the `CREATE3Factory` please check folder `deployments/`
+Deployed factory addresses:
+`0x29C85935D4D627d9544Ea4C7fdca9b4c547B281d` on all supported chains.
 
 ## Usage
 
