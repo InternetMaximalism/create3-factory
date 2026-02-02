@@ -8,53 +8,51 @@ deploy() {
 
 	# get deployer address
 	DEPLOYER_ADDRESS=$(cast wallet address "$PRIVATE_KEY")
-	echo "You are deploying from address: $DEPLOYER_ADDRESS (should be 0x11F11121DF7256C40339393b0FB045321022ce44 for 0x123 diamond address)"
+	echo "Deployer address: $DEPLOYER_ADDRESS"
 
-	# get balance in given network
-	RPC_KEY="RPC_URL_$(tr '[:lower:]' '[:upper:]' <<<"$NETWORK")"
-	BALANCE=$(cast balance "$DEPLOYER_ADDRESS" --rpc-url "${!RPC_KEY}")
+	# get RPC URL for the network
+	RPC_KEY="RPC_URL_$(echo "$NETWORK" | tr '[:lower:]' '[:upper:]' | tr '-' '_')"
+	RPC_URL="${!RPC_KEY}"
 
-	# return formatted balance
-	echo "Deployer Wallet balance: $(echo "scale=10;$BALANCE / 1000000000000000000" | bc)"
-	
-	echo "" 
-	echo "@DEV: You may run into an error about verification (missing Etherscan key for chainId ... or other errors)." 
-	echo "      If you cannot fix it, remove the --verify flag and verify the contract manually afterwards. This needs to be fixed."
-	echo "" 
-	# Ticket for this issue:  https://lifi.atlassian.net/browse/LF-12359
-
-	RAW_RETURN_DATA=$(forge script script/Deploy.s.sol -f $NETWORK -vvvv --json --legacy --broadcast --skip-simulation --gas-limit 2000000)
-	RETURN_CODE=$?
-	echo "RAW_RETURN_DATA: $RAW_RETURN_DATA"
-	CLEAN_RETURN_DATA=$(echo $RAW_RETURN_DATA | sed 's/^.*{\"logs/{\"logs/')
-	echo "RAW_RETURN_DATA: $RAW_RETURN_DATA"
-	RETURN_DATA=$(echo $CLEAN_RETURN_DATA | jq -r '.returns' 2>/dev/null)
-	echo ""
-	echo "RETURN_DATA: $RETURN_DATA"
-	echo ""
-
-	if [[ $RETURN_CODE -ne 0 ]]; then
-		echo "❌ Error: deployment was not successful"
+	if [[ -z "$RPC_URL" ]]; then
+		echo "❌ Error: RPC URL not found for network: $NETWORK"
+		echo "   Please set $RPC_KEY in your .env file"
 		exit 1
 	fi
 
-	FACTORY_ADDRESS=$(echo $RETURN_DATA | jq -r '.factory.value')
-	echo "✅ Successfully deployed to address $FACTORY_ADDRESS"
-
-	# verify contract
-	API_KEY="$(tr '[:lower:]' '[:upper:]' <<<$NETWORK)_API_KEY"
-	API_KEY="${!API_KEY}"
-	echo ""
-	# not working as intended, we need to fix this
-	# echo "Trying to verify contract now with API key: $API_KEY"
-	# forge verify-contract "$FACTORY_ADDRESS" src/CREATE3Factory.sol:CREATE3Factory --watch --etherscan-api-key "$API_KEY" --chain "$NETWORK"
+	# get balance
+	BALANCE=$(cast balance "$DEPLOYER_ADDRESS" --rpc-url "$RPC_URL")
+	echo "Balance: $(echo "scale=6;$BALANCE / 1000000000000000000" | bc) ETH"
 	echo ""
 
-	echo ""
-	echo "Creating deploy log"
-	saveContract $NETWORK CREATE3Factory $FACTORY_ADDRESS
+	# deploy
+	echo "Deploying to $NETWORK..."
+	RAW_RETURN_DATA=$(forge script script/Deploy.s.sol --rpc-url "$RPC_URL" --broadcast --json 2>&1)
+	RETURN_CODE=$?
 
-	echo "✅ Deployment successfully completed"
+	if [[ $RETURN_CODE -ne 0 ]]; then
+		echo "❌ Error: deployment was not successful"
+		echo "$RAW_RETURN_DATA"
+		exit 1
+	fi
+
+	# extract factory address
+	CLEAN_RETURN_DATA=$(echo "$RAW_RETURN_DATA" | grep -o '{.*}' | tail -1)
+	FACTORY_ADDRESS=$(echo "$CLEAN_RETURN_DATA" | jq -r '.returns.factory.value' 2>/dev/null)
+
+	if [[ -z "$FACTORY_ADDRESS" || "$FACTORY_ADDRESS" == "null" ]]; then
+		echo "⚠️  Could not parse factory address from output"
+		echo "Please check the broadcast folder for the deployed address"
+	else
+		echo "✅ Successfully deployed to address: $FACTORY_ADDRESS"
+
+		# save to deployments
+		saveContract "$NETWORK" "CREATE3Factory" "$FACTORY_ADDRESS"
+	fi
+
+	echo ""
+	echo "To verify the contract, run:"
+	echo "  forge verify-contract $FACTORY_ADDRESS src/CREATE3Factory.sol:CREATE3Factory --rpc-url \$RPC_URL_$(echo "$NETWORK" | tr '[:lower:]' '[:upper:]' | tr '-' '_') --etherscan-api-key <API_KEY> --watch"
 }
 
 saveContract() {
@@ -70,6 +68,17 @@ saveContract() {
 	fi
 	result=$(cat "$ADDRESSES_FILE" | jq -r ". + {\"$CONTRACT\": \"$ADDRESS\"}")
 	printf %s "$result" >"$ADDRESSES_FILE"
+	echo "📝 Saved to $ADDRESSES_FILE"
 }
 
-deploy $1
+# check if network argument is provided
+if [[ -z "$1" ]]; then
+	echo "Usage: ./deploy/deploy.sh <network>"
+	echo ""
+	echo "Available networks:"
+	echo "  Mainnet: mainnet, arbitrum, base, bsc, scroll"
+	echo "  Testnet: sepolia, arbitrum-sepolia, base-sepolia, bsc-testnet, scroll-sepolia"
+	exit 1
+fi
+
+deploy "$1"

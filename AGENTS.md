@@ -92,12 +92,33 @@ forge build
 
 ### Deploy
 
+**Option 1: Using shell script**
+
 ```bash
-# Deploy to a specific network
 ./deploy/deploy.sh <network>
 
-# Example
+# Examples:
 ./deploy/deploy.sh sepolia
+./deploy/deploy.sh arbitrum-sepolia
+./deploy/deploy.sh base-sepolia
+```
+
+**Option 2: Using forge directly**
+
+```bash
+source .env
+forge script script/Deploy.s.sol --rpc-url $RPC_URL_SEPOLIA --broadcast -vvv
+```
+
+### Verify
+
+After deployment, verify the contract on the block explorer:
+
+```bash
+forge verify-contract <DEPLOYED_ADDRESS> src/CREATE3Factory.sol:CREATE3Factory \
+  --rpc-url $RPC_URL_SEPOLIA \
+  --etherscan-api-key $ETHERSCAN_KEY \
+  --watch
 ```
 
 ## Important Technical Details
