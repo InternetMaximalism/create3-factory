@@ -13,6 +13,22 @@ One could use a `CREATE2` factory that deterministically deploys contracts to an
 
 A `CREATE3` factory offers the best solution: the address of the deployed contract is determined by only the deployer address and the salt. This makes it far easier to deploy contracts to multiple chains at the same addresses.
 
+## How This Factory is Deployed
+
+This factory uses **CREATE2** for deployment to ensure the same factory address across all chains without nonce synchronization:
+
+```solidity
+bytes32 salt = keccak256("intmax");
+factory = new CREATE3Factory{salt: salt}();
+```
+
+The factory address is determined by:
+- Deployer address (from PRIVATE_KEY)
+- Salt ("intmax")
+- Factory bytecode (deterministic via `bytecode_hash = "none"` in foundry.toml)
+
+**Nonce does not affect the address**, so you can deploy to new chains at any time.
+
 ## Supported Chains
 
 | Mainnet | Testnet |
@@ -62,8 +78,46 @@ forge build
 
 ### Deployment
 
-Make sure that the network is defined in foundry.toml, then run:
+1. Copy `.env.example` to `.env` and fill in the values:
 
 ```bash
-./deploy/deploy.sh [network]
+cp .env.example .env
+```
+
+2. Set up your environment variables:
+
+```bash
+PRIVATE_KEY=<your-deployer-private-key>
+RPC_URL_SEPOLIA=<rpc-url>
+ETHERSCAN_KEY=<api-key>
+# ... other networks as needed
+```
+
+3. Deploy using the shell script:
+
+```bash
+./deploy/deploy.sh <network>
+
+# Examples:
+./deploy/deploy.sh sepolia
+./deploy/deploy.sh arbitrum-sepolia
+./deploy/deploy.sh base-sepolia
+```
+
+4. Or deploy directly with forge:
+
+```bash
+source .env
+forge script script/Deploy.s.sol --rpc-url $RPC_URL_SEPOLIA --broadcast -vvv
+```
+
+### Verification
+
+After deployment, verify the contract:
+
+```bash
+forge verify-contract <DEPLOYED_ADDRESS> src/CREATE3Factory.sol:CREATE3Factory \
+  --rpc-url $RPC_URL_SEPOLIA \
+  --etherscan-api-key $ETHERSCAN_KEY \
+  --watch
 ```
