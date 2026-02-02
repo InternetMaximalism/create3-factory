@@ -1,6 +1,9 @@
 name: test
 
-on: workflow_dispatch
+on:
+  push:
+  pull_request:
+  workflow_dispatch:
 
 env:
   FOUNDRY_PROFILE: ci
@@ -13,9 +16,14 @@ jobs:
     name: Foundry project
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@v3
+      - uses: actions/checkout@v6
         with:
           submodules: recursive
+
+      - name: Setup Node.js
+        uses: actions/setup-node@v6
+        with:
+          node-version: '18'
 
       - name: Install Foundry
         uses: foundry-rs/foundry-toolchain@v1
@@ -25,10 +33,42 @@ jobs:
       - name: Run Forge build
         run: |
           forge --version
-          forge build --sizes
+          forge build
         id: build
+
+      - name: Run Forge fmt
+        run: |
+          forge fmt --check
+        id: fmt
+
+      - name: Run Forge lint
+        run: |
+          forge lint src test script
+        id: lint
 
       - name: Run Forge tests
         run: |
           forge test -vvv
         id: test
+
+      - name: Install npm dependencies
+        run: npm ci
+
+      - name: Run solhint
+        run: |
+          yes | npm run lint
+        id: solhint
+
+      - name: Setup Python
+        uses: actions/setup-python@v6
+        with:
+          python-version: '3.x'
+
+      - name: Install Slither
+        run: |
+          pip install slither-analyzer
+  
+      - name: Run Slither
+        run: |
+          slither src/
+        id: slither
