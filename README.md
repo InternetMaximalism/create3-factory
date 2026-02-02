@@ -2,9 +2,7 @@
 
 Factory contract for easily deploying contracts to the same address on multiple chains, using CREATE3.
 
-This was forked from https://github.com/zeframlou/create3-factory
-
-The deploy script was updated to use legacy (non EIP-1559) transactions due to the fact that some chains that LIFI supports do not support EIP-1559.
+This was forked from https://github.com/lifinance/create3-factory (originally from https://github.com/ZeframLou/create3-factory)
 
 ## Why?
 
@@ -15,11 +13,19 @@ One could use a `CREATE2` factory that deterministically deploys contracts to an
 
 A `CREATE3` factory offers the best solution: the address of the deployed contract is determined by only the deployer address and the salt. This makes it far easier to deploy contracts to multiple chains at the same addresses.
 
-LIFI Supports a large number of chains and we are only growing. CREATE3 allows us to manage our deployments better as well as make integration by developers more painless.
+## Supported Chains
+
+| Mainnet | Testnet |
+|---------|---------|
+| Ethereum | Sepolia |
+| Arbitrum | Arbitrum Sepolia |
+| Base | Base Sepolia |
+| BSC | BSC Testnet |
+| Scroll | Scroll Sepolia |
 
 ## Deployments
 
-For a list of all deployments and their respective addresses of the `CREATE3Factory` please check folder deployments/
+For a list of all deployments and their respective addresses of the `CREATE3Factory` please check folder `deployments/`
 
 ## Usage
 
@@ -35,7 +41,7 @@ A few notes:
 To install with [Foundry](https://github.com/foundry-rs/foundry):
 
 ```
-forge install lifinance/create3-factory
+forge install InternetMaximalism/create3-factory
 ```
 
 ## Local development

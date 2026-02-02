@@ -8,10 +8,11 @@ import {CREATE3Factory} from "../src/CREATE3Factory.sol";
 contract DeployScript is Script {
     function run() public returns (CREATE3Factory factory) {
         uint256 deployerPrivateKey = uint256(vm.envBytes32("PRIVATE_KEY"));
+        bytes32 salt = keccak256("intmax");
 
         vm.startBroadcast(deployerPrivateKey);
 
-        factory = new CREATE3Factory();
+        factory = new CREATE3Factory{salt: salt}();
 
         vm.stopBroadcast();
     }

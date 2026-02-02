@@ -1,0 +1,23 @@
+{
+  "name": "create3-factory",
+  "version": "1.0.0",
+  "description": "Factory contract for deterministic contract deployment across multiple EVM chains using CREATE3",
+  "scripts": {
+    "lint": "solhint 'src/**/*.sol' 'script/**/*.sol' 'test/**/*.sol'",
+    "lint:fix": "solhint 'src/**/*.sol' 'script/**/*.sol' 'test/**/*.sol' --fix"
+  },
+  "keywords": [
+    "solidity",
+    "ethereum",
+    "create3",
+    "create2",
+    "deterministic-deployment",
+    "multichain",
+    "foundry"
+  ],
+  "author": "",
+  "license": "AGPL-3.0",
+  "devDependencies": {
+    "solhint": "6.0.1"
+  }
+}
