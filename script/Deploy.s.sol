@@ -4,7 +4,6 @@ pragma solidity 0.8.33;
 import {Script} from "forge-std/Script.sol";
 
 import {CREATE3Factory} from "../src/CREATE3Factory.sol";
-import {CREATE3_FACTORY_SALT} from "../src/Salt.sol";
 
 contract DeployScript is Script {
     function run() public returns (CREATE3Factory factory) {
@@ -12,7 +11,8 @@ contract DeployScript is Script {
 
         vm.startBroadcast(deployerPrivateKey);
 
-        factory = new CREATE3Factory{salt: CREATE3_FACTORY_SALT}();
+        bytes32 salt = keccak256("intmax");
+        factory = new CREATE3Factory{salt: salt}();
 
         vm.stopBroadcast();
     }
