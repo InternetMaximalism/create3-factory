@@ -20,6 +20,7 @@ fuzz = { runs = 10000 }
 mainnet = "${RPC_URL_MAINNET}"
 arbitrum = "${RPC_URL_ARBITRUM}"
 base = "${RPC_URL_BASE}"
+polygon = "${RPC_URL_POLYGON}"
 bsc = "${RPC_URL_BSC}"
 scroll = "${RPC_URL_SCROLL}"
 
@@ -27,6 +28,7 @@ scroll = "${RPC_URL_SCROLL}"
 sepolia = "${RPC_URL_SEPOLIA}"
 arbitrum-sepolia = "${RPC_URL_ARBITRUM_SEPOLIA}"
 base-sepolia = "${RPC_URL_BASE_SEPOLIA}"
+polygon-amoy = "${RPC_URL_POLYGON_AMOY}"
 bsc-testnet = "${RPC_URL_BSC_TESTNET}"
 scroll-sepolia = "${RPC_URL_SCROLL_SEPOLIA}"
 
@@ -35,6 +37,7 @@ scroll-sepolia = "${RPC_URL_SCROLL_SEPOLIA}"
 mainnet = { key = "${ETHERSCAN_KEY}" }
 arbitrum = { key = "${ARBISCAN_KEY}", url = "https://api.arbiscan.io/api" }
 base = { key = "${BASESCAN_API_KEY}", url = "https://api.basescan.org/api" }
+polygon = { key = "${POLYGONSCAN_API_KEY}", url = "https://api.polygonscan.com/api" }
 bsc = { key = "${BSCSCAN_KEY}", url = "https://api.bscscan.com/api" }
 scroll = { key = "${SCROLLSCAN_API_KEY}", url = "https://api.scrollscan.com/api" }
 
@@ -42,5 +45,6 @@ scroll = { key = "${SCROLLSCAN_API_KEY}", url = "https://api.scrollscan.com/api"
 sepolia = { key = "${ETHERSCAN_KEY}" }
 arbitrum-sepolia = { key = "${ARBISCAN_KEY}", url = "https://api-sepolia.arbiscan.io/api" }
 base-sepolia = { key = "${BASESCAN_API_KEY}", url = "https://api-sepolia.basescan.org/api" }
+polygon-amoy = { key = "${POLYGONSCAN_API_KEY}", url = "https://api-amoy.polygonscan.com/api" }
 bsc-testnet = { key = "${BSCSCAN_KEY}", url = "https://api-testnet.bscscan.com/api" }
 scroll-sepolia = { key = "${SCROLLSCAN_API_KEY}", url = "https://api-sepolia.scrollscan.com/api" }

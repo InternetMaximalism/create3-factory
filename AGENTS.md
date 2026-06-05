@@ -68,6 +68,7 @@ create3-factory/
 | Ethereum | Sepolia |
 | Arbitrum | Arbitrum Sepolia |
 | Base | Base Sepolia |
+| Polygon | Polygon Amoy |
 | BSC | BSC Testnet |
 | Scroll | Scroll Sepolia |
 
@@ -155,11 +156,13 @@ PRIVATE_KEY=           # Deployer private key
 RPC_URL_MAINNET=
 RPC_URL_ARBITRUM=
 RPC_URL_BASE=
+RPC_URL_POLYGON=
 RPC_URL_BSC=
 RPC_URL_SCROLL=
 RPC_URL_SEPOLIA=
 RPC_URL_ARBITRUM_SEPOLIA=
 RPC_URL_BASE_SEPOLIA=
+RPC_URL_POLYGON_AMOY=
 RPC_URL_BSC_TESTNET=
 RPC_URL_SCROLL_SEPOLIA=
 
@@ -167,6 +170,7 @@ RPC_URL_SCROLL_SEPOLIA=
 ETHERSCAN_KEY=
 ARBISCAN_KEY=
 BASESCAN_API_KEY=
+POLYGONSCAN_API_KEY=
 BSCSCAN_KEY=
 SCROLLSCAN_API_KEY=
 ```

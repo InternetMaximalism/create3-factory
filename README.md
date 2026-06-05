@@ -38,6 +38,7 @@ The factory address is determined by:
 | Arbitrum | Arbitrum Sepolia |
 | Base     | Base Sepolia     |
 | Optimism | Optimism Sepolia |
+| Polygon  | Polygon Amoy     |
 | BNB      | BNB Testnet      |
 | Scroll   | Scroll Sepolia   |
 
