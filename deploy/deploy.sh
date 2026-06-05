@@ -76,8 +76,8 @@ if [[ -z "$1" ]]; then
 	echo "Usage: ./deploy/deploy.sh <network>"
 	echo ""
 	echo "Available networks:"
-	echo "  Mainnet: mainnet, arbitrum, base, bsc, scroll"
-	echo "  Testnet: sepolia, arbitrum-sepolia, base-sepolia, bsc-testnet, scroll-sepolia"
+	echo "  Mainnet: mainnet, arbitrum, base, polygon, bsc, scroll"
+	echo "  Testnet: sepolia, arbitrum-sepolia, base-sepolia, polygon-amoy, bsc-testnet, scroll-sepolia"
 	exit 1
 fi
 
