@@ -71,6 +71,7 @@ create3-factory/
 | Polygon | Polygon Amoy |
 | BSC | BSC Testnet |
 | Scroll | Scroll Sepolia |
+| Kaia | Kairos |
 
 ## Development Workflow
 
@@ -159,12 +160,14 @@ RPC_URL_BASE=
 RPC_URL_POLYGON=
 RPC_URL_BSC=
 RPC_URL_SCROLL=
+RPC_URL_KAIA=
 RPC_URL_SEPOLIA=
 RPC_URL_ARBITRUM_SEPOLIA=
 RPC_URL_BASE_SEPOLIA=
 RPC_URL_POLYGON_AMOY=
 RPC_URL_BSC_TESTNET=
 RPC_URL_SCROLL_SEPOLIA=
+RPC_URL_KAIROS=
 
 # Etherscan API Keys (for verification)
 ETHERSCAN_KEY=

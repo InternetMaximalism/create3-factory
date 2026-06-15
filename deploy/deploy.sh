@@ -38,7 +38,7 @@ deploy() {
 
 	# extract factory address
 	CLEAN_RETURN_DATA=$(echo "$RAW_RETURN_DATA" | grep -o '{.*}' | tail -1)
-	FACTORY_ADDRESS=$(echo "$CLEAN_RETURN_DATA" | jq -r '.returns.factory.value' 2>/dev/null)
+	FACTORY_ADDRESS=$(echo "$CLEAN_RETURN_DATA" | jq -r '.returns.factory.value // (.transactions[]? | select(.contractName == "CREATE3Factory") | .contractAddress) // empty' 2>/dev/null)
 
 	if [[ -z "$FACTORY_ADDRESS" || "$FACTORY_ADDRESS" == "null" ]]; then
 		echo "⚠️  Could not parse factory address from output"
@@ -52,7 +52,17 @@ deploy() {
 
 	echo ""
 	echo "To verify the contract, run:"
-	echo "  forge verify-contract $FACTORY_ADDRESS src/CREATE3Factory.sol:CREATE3Factory --rpc-url \$RPC_URL_$(echo "$NETWORK" | tr '[:lower:]' '[:upper:]' | tr '-' '_') --etherscan-api-key <API_KEY> --watch"
+	case "$NETWORK" in
+	kaia)
+		echo "  forge verify-contract $FACTORY_ADDRESS src/CREATE3Factory.sol:CREATE3Factory --rpc-url \$RPC_URL_KAIA --verifier custom --verifier-url https://compiler-api-v2.kaiascan.io/mainnet/forge-verify --chain-id 8217 --retries 1"
+		;;
+	kairos)
+		echo "  forge verify-contract $FACTORY_ADDRESS src/CREATE3Factory.sol:CREATE3Factory --rpc-url \$RPC_URL_KAIROS --verifier custom --verifier-url https://compiler-api-v2.kaiascan.io/kairos/forge-verify --chain-id 1001 --retries 1"
+		;;
+	*)
+		echo "  forge verify-contract $FACTORY_ADDRESS src/CREATE3Factory.sol:CREATE3Factory --rpc-url \$RPC_URL_$(echo "$NETWORK" | tr '[:lower:]' '[:upper:]' | tr '-' '_') --etherscan-api-key <API_KEY> --watch"
+		;;
+	esac
 }
 
 saveContract() {
@@ -76,8 +86,8 @@ if [[ -z "$1" ]]; then
 	echo "Usage: ./deploy/deploy.sh <network>"
 	echo ""
 	echo "Available networks:"
-	echo "  Mainnet: mainnet, arbitrum, base, polygon, bsc, scroll"
-	echo "  Testnet: sepolia, arbitrum-sepolia, base-sepolia, polygon-amoy, bsc-testnet, scroll-sepolia"
+	echo "  Mainnet: mainnet, arbitrum, base, polygon, bsc, scroll, kaia"
+	echo "  Testnet: sepolia, arbitrum-sepolia, base-sepolia, polygon-amoy, bsc-testnet, scroll-sepolia, kairos"
 	exit 1
 fi
 
