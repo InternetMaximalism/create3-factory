@@ -23,6 +23,7 @@ base = "${RPC_URL_BASE}"
 polygon = "${RPC_URL_POLYGON}"
 bsc = "${RPC_URL_BSC}"
 scroll = "${RPC_URL_SCROLL}"
+kaia = "${RPC_URL_KAIA}"
 
 # testnet
 sepolia = "${RPC_URL_SEPOLIA}"
@@ -31,6 +32,7 @@ base-sepolia = "${RPC_URL_BASE_SEPOLIA}"
 polygon-amoy = "${RPC_URL_POLYGON_AMOY}"
 bsc-testnet = "${RPC_URL_BSC_TESTNET}"
 scroll-sepolia = "${RPC_URL_SCROLL_SEPOLIA}"
+kairos = "${RPC_URL_KAIROS}"
 
 [etherscan]
 # mainnet

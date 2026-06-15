@@ -41,6 +41,7 @@ The factory address is determined by:
 | Polygon  | Polygon Amoy     |
 | BNB      | BNB Testnet      |
 | Scroll   | Scroll Sepolia   |
+| Kaia     | Kairos           |
 
 ## Deployments
 
@@ -106,6 +107,7 @@ ETHERSCAN_KEY=<api-key>
 ./deploy/deploy.sh sepolia
 ./deploy/deploy.sh arbitrum-sepolia
 ./deploy/deploy.sh base-sepolia
+./deploy/deploy.sh kairos
 ```
 
 4. Or deploy directly with forge:
@@ -124,4 +126,20 @@ forge verify-contract <DEPLOYED_ADDRESS> src/CREATE3Factory.sol:CREATE3Factory \
   --rpc-url $RPC_URL_SEPOLIA \
   --etherscan-api-key $ETHERSCAN_KEY \
   --watch
+```
+
+For Kaia and Kairos, use Kaiascan's Foundry verifier URL:
+
+```bash
+forge verify-contract <DEPLOYED_ADDRESS> src/CREATE3Factory.sol:CREATE3Factory \
+  --rpc-url $RPC_URL_KAIA \
+  --verifier-url https://compiler-api-v2.kaiascan.io/mainnet/forge-verify \
+  --chain-id 8217 \
+  --retries 1
+
+forge verify-contract <DEPLOYED_ADDRESS> src/CREATE3Factory.sol:CREATE3Factory \
+  --rpc-url $RPC_URL_KAIROS \
+  --verifier-url https://compiler-api-v2.kaiascan.io/kairos/forge-verify \
+  --chain-id 1001 \
+  --retries 1
 ```
