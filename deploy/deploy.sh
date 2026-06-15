@@ -54,10 +54,10 @@ deploy() {
 	echo "To verify the contract, run:"
 	case "$NETWORK" in
 	kaia)
-		echo "  forge verify-contract $FACTORY_ADDRESS src/CREATE3Factory.sol:CREATE3Factory --rpc-url \$RPC_URL_KAIA --verifier-url https://compiler-api-v2.kaiascan.io/mainnet/forge-verify --chain-id 8217 --retries 1"
+		echo "  forge verify-contract $FACTORY_ADDRESS src/CREATE3Factory.sol:CREATE3Factory --rpc-url \$RPC_URL_KAIA --verifier custom --verifier-url https://compiler-api-v2.kaiascan.io/mainnet/forge-verify --chain-id 8217 --retries 1"
 		;;
 	kairos)
-		echo "  forge verify-contract $FACTORY_ADDRESS src/CREATE3Factory.sol:CREATE3Factory --rpc-url \$RPC_URL_KAIROS --verifier-url https://compiler-api-v2.kaiascan.io/kairos/forge-verify --chain-id 1001 --retries 1"
+		echo "  forge verify-contract $FACTORY_ADDRESS src/CREATE3Factory.sol:CREATE3Factory --rpc-url \$RPC_URL_KAIROS --verifier custom --verifier-url https://compiler-api-v2.kaiascan.io/kairos/forge-verify --chain-id 1001 --retries 1"
 		;;
 	*)
 		echo "  forge verify-contract $FACTORY_ADDRESS src/CREATE3Factory.sol:CREATE3Factory --rpc-url \$RPC_URL_$(echo "$NETWORK" | tr '[:lower:]' '[:upper:]' | tr '-' '_') --etherscan-api-key <API_KEY> --watch"

@@ -133,12 +133,14 @@ For Kaia and Kairos, use Kaiascan's Foundry verifier URL:
 ```bash
 forge verify-contract <DEPLOYED_ADDRESS> src/CREATE3Factory.sol:CREATE3Factory \
   --rpc-url $RPC_URL_KAIA \
+  --verifier custom \
   --verifier-url https://compiler-api-v2.kaiascan.io/mainnet/forge-verify \
   --chain-id 8217 \
   --retries 1
 
 forge verify-contract <DEPLOYED_ADDRESS> src/CREATE3Factory.sol:CREATE3Factory \
   --rpc-url $RPC_URL_KAIROS \
+  --verifier custom \
   --verifier-url https://compiler-api-v2.kaiascan.io/kairos/forge-verify \
   --chain-id 1001 \
   --retries 1
