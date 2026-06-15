@@ -38,7 +38,7 @@ deploy() {
 
 	# extract factory address
 	CLEAN_RETURN_DATA=$(echo "$RAW_RETURN_DATA" | grep -o '{.*}' | tail -1)
-	FACTORY_ADDRESS=$(echo "$CLEAN_RETURN_DATA" | jq -r '.returns.factory.value' 2>/dev/null)
+	FACTORY_ADDRESS=$(echo "$CLEAN_RETURN_DATA" | jq -r '.returns.factory.value // (.transactions[]? | select(.contractName == "CREATE3Factory") | .contractAddress) // empty' 2>/dev/null)
 
 	if [[ -z "$FACTORY_ADDRESS" || "$FACTORY_ADDRESS" == "null" ]]; then
 		echo "⚠️  Could not parse factory address from output"
